@@ -1,6 +1,6 @@
 # Project Set up
 Clone this repo then run this Command in the root directory
-```npm install``
+```npm install```
 after you installed the dependencies, run this command to spin up the project
 ```npm run dev```
 
