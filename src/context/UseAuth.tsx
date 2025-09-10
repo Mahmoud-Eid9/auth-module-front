@@ -6,7 +6,6 @@ const UseAuth = () => {
     const { token } = useAuth();
     useEffect(() => {
         setAuthToken(token);//update token for axios (outside react)
-        console.log(token);
     }, [token]);
 
     return null;
