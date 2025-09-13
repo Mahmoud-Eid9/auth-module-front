@@ -31,7 +31,7 @@ const LoginCard = () => {
                 <h3 className="card-title mb-5">Log-in</h3>
                 <form onSubmit={submitHandler} className="d-flex flex-column gap-2">
                     <input type="email" placeholder="Email" id="email" onChange={e => setEmail(e.target.value)} />
-                    <input type="password" placeholder="Password" id="email" onChange={e => setPassword(e.target.value)} />
+                    <input type="password" placeholder="Password" id="password" onChange={e => setPassword(e.target.value)} />
                     <p>{error}</p>
                     <button type="submit" className="btn btn-primary">Submit</button>
                     <Link to="/register">Register</Link>

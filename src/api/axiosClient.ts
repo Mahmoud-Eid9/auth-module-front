@@ -3,12 +3,16 @@ import { getAuthToken } from "../utils/authTokenStore";
 import { setAuthToken } from "../utils/authTokenStore";
 import type { AxiosRequestConfig } from 'axios';
 
+interface CsrfResponse {
+  csrfToken: string;
+}
+
 const excludedRoutes = ['/auth/login', '/auth/register', '/auth/refresh'];
 
 interface CustomAxiosRequestConfig extends AxiosRequestConfig {
   retry?: boolean;
 }
-  0
+console.log(import.meta.env.VITE_API_URL)
 export const apiClient = axios.create({
   baseURL: import.meta.env.VITE_API_URL,
   withCredentials: true,
