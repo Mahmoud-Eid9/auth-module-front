@@ -4,6 +4,13 @@ Clone this repo then run this Command in the root directory
 after you installed the dependencies, run this command to spin up the project
 ```npm run dev```
 
+# Project Structure
+  - `/src/api`: Axios client and API calls
+  - `/src/context`: `useContext` state
+  - `/src/utils`: token store and constanst(regex used for validation)
+  - `/src/layouts`: pages rendered from routes
+  - `/src/component`: reusable components
+
 # Routes
 - `/login`: login page for unauthorized users
 - `/register`: register page to create a new account
