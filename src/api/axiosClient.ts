@@ -3,9 +3,6 @@ import { getAuthToken } from "../utils/authTokenStore";
 import { setAuthToken } from "../utils/authTokenStore";
 import type { AxiosRequestConfig } from 'axios';
 
-interface CsrfResponse {
-  csrfToken: string;
-}
 
 const excludedRoutes = ['/auth/login', '/auth/register', '/auth/refresh'];
 
