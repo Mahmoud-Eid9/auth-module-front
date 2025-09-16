@@ -9,7 +9,7 @@ const excludedRoutes = ['/auth/login', '/auth/register', '/auth/refresh'];
 interface CustomAxiosRequestConfig extends AxiosRequestConfig {
   retry?: boolean;
 }
-console.log(import.meta.env.VITE_API_URL)
+
 export const apiClient = axios.create({
   baseURL: import.meta.env.VITE_API_URL,
   withCredentials: true,
@@ -18,7 +18,7 @@ export const apiClient = axios.create({
   },
 });
 
-
+// Attach access token to requeusts
 apiClient.interceptors.request.use(
   (config) => {
     const token = getAuthToken(); // get from global state
@@ -30,29 +30,33 @@ apiClient.interceptors.request.use(
   (error) => Promise.reject(error)
 );
 
+//refresh token when met with unauthorized response
 apiClient.interceptors.response.use(
   response => response,
   async (error: AxiosError) => {
-    const originalRequest = error.config as CustomAxiosRequestConfig;
-    if(originalRequest == null){
+    const userRequest = error.config as CustomAxiosRequestConfig;
+    if(userRequest == null){
       return Promise.reject(error);
     }
-    if (originalRequest.url && excludedRoutes.includes(originalRequest.url)) {
+    if (userRequest.url && excludedRoutes.includes(userRequest.url)) {
       return Promise.reject(error);
     }
-    if (error.response?.status === 401 && !originalRequest.retry) {
-      originalRequest.retry = true;
+    //stops you from refreshing when met with error while refreshing
+    // (refresh -> error -> refresh -> error) this if breaks the loop
+    if (error.response?.status === 401 && !userRequest.retry) {
+      userRequest.retry = true;
 
       try {
         const { data } = await apiClient.post('/auth/refresh');
         setAuthToken(data.accessToken);
-        if (originalRequest.headers) {
-          originalRequest.headers['Authorization'] = `Bearer ${data.accessToken}`;
+        if (userRequest.headers) {
+          userRequest.headers['Authorization'] = `Bearer ${data.accessToken}`;
         }
-        return apiClient(originalRequest);
-      } catch (refreshError) {
+        //replay users request
+        return apiClient(userRequest);
+      } catch (err) {
         window.location.href = '/login';
-        return Promise.reject(refreshError);
+        return Promise.reject("Carefull there, You are not authorized");
       }
     }
 

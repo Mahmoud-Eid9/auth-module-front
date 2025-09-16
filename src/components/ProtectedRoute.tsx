@@ -20,7 +20,6 @@ const ProtectedRoute = ({ children }: Props) => {
       }
 
       try {
-        console.log("here")
         const { data } = await refresh();
         setToken(data.newAccessToken);
         setAuthorized(true);
